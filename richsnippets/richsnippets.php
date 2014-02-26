@@ -93,11 +93,6 @@
             $id_lang = $this->context->language->id;
             $id_shop = $this->context->shop->id;
             $link = $this->context->link;
-            
-            if ($link->protocol_content == 'https://')
-                $rs_base_dir = 'https://';
-            else
-                $rs_base_dir = 'http://';
 
             
             $product = new Product((int)Tools::getValue('id_product'), false, $id_lang, $id_shop);
@@ -117,7 +112,7 @@
                                                      'image' => $image,
                                                      'manufacturer' => $manufacturer,
                                                      ));
-                // Muestra archivo tpl
+                // Shows tpl file
                 if ($display == 'header')
                     return $this->display(__FILE__, 'header.tpl');
                 elseif ($display == 'footerproduct')
@@ -125,21 +120,6 @@
             }
             else
             {
-               /* $rs_logo = array();
-                $rs_logo = array(
-                                 'facebook' => array(
-                                                     'large' => $this->_path.'img/logo-facebook-600-315.jpg',
-                                                     'thumbnail' => $this->_path.'img/logo-facebook-500-500.jpg',
-                                                     ),
-                                 'twitter' => array(
-                                                    'large' => $this->_path.'img/logo-twitter-500-500.jpg',
-                                                    'thumbnail' => $this->_path.'img/logo-twitter-120-120.jpg',
-                                                    ),
-                                 );
-
-                $this->context->smarty->assign(array(
-                                                     'rs_logo' => $rs_logo,
-                                                     ));*/
                 return $this->display(__FILE__, 'header.tpl');
             }
 
