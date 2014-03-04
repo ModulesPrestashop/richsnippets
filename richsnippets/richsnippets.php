@@ -92,7 +92,6 @@
         {
             $id_lang = $this->context->language->id;
             $id_shop = $this->context->shop->id;
-            $link = $this->context->link;
 
             
             $product = new Product((int)Tools::getValue('id_product'), false, $id_lang, $id_shop);
