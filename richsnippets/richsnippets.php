@@ -71,7 +71,6 @@ class RichSnippets extends PaymentModule
     {
         $id_lang = $this->context->language->id;
         $id_shop = $this->context->shop->id;
-
         
         $product = new Product((int)Tools::getValue('id_product'), false, $id_lang, $id_shop);
         
@@ -81,14 +80,15 @@ class RichSnippets extends PaymentModule
             
             //image of the product
             $id_image = Product::getCover((int)Tools::getValue('id_product'));
-            if (sizeof($id_image) > 0)
+            if (count($id_image) > 0)
                 $image = new Image($id_image['id_image']);
 
             $this->context->smarty->assign(array(
-                                                 'product' => $product,
-                                                 'image' => $image,
-                                                 'manufacturer' => $manufacturer,
-                                                 ));
+                'product' => $product,
+                'image' => $image,
+                'manufacturer' => $manufacturer,
+                ));
+                
             // Shows tpl file
             if ($display == 'header')
                 return $this->display(__FILE__, 'header.tpl');
