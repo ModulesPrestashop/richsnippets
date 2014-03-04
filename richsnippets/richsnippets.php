@@ -34,7 +34,7 @@ class RichSnippets extends PaymentModule
         $this->name = 'richsnippets';
         $this->tab = 'seo';
         $this->author = 'jorgevrgs';
-        $this->version = '0.1';
+        $this->version = '0.2';
         $this->need_instance = 1;
         $this->module_key = '';
 
