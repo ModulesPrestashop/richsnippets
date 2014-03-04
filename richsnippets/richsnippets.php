@@ -23,10 +23,10 @@
 *  @license   http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 */
-    
+   
 if (!defined('_PS_VERSION_'))
     exit;
-    
+
 class RichSnippets extends PaymentModule
 {
     public function __construct()
