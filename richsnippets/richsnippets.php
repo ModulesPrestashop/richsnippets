@@ -124,12 +124,12 @@
 
         }
         
-        public function hookDisplayHeader($params)
+        public function hookDisplayHeader()
         {
             return $this->displayBlock('header');
         }
         
-        public function HookDisplayFooterProduct($params)
+        public function HookDisplayFooterProduct()
         {
             return $this->displayBlock('footerproduct');
         }
