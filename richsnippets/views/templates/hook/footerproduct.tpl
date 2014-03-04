@@ -1,5 +1,5 @@
 {*
-* 2007-2013 PrestaShop
+* 2007-2014 PrestaShop
 *
 * NOTICE OF LICENSE
 *
@@ -18,7 +18,7 @@
 * needs please refer to http://www.prestashop.com for more information.
 *
 *  @author PrestaShop SA <contact@prestashop.com>
-*  @copyright  2007-2013 PrestaShop SA
+*  @copyright  2007-2014 PrestaShop SA
 *  @license    http://opensource.org/licenses/afl-3.0.php  Academic Free License (AFL 3.0)
 *  International Registered Trademark & Property of PrestaShop SA
 *}
@@ -38,9 +38,9 @@
         {/if}
         <span itemprop="brand">{$manufacturer->name|escape:html:'UTF-8'}</span>
         <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
-            <span itemprop="price">{$price}</span>
-            <span itemprop="priceCurrency">{$currency->iso_code}</span>
-            <span itemprop="itemCondition">{$product->condition}</span>
+            <span itemprop="price">{$price|escape:'html'}</span>
+            <span itemprop="priceCurrency">{$currency->iso_code|escape:'html'}</span>
+            <span itemprop="itemCondition">{$product->condition|escape:'html'}</span>
         </div>
     </div>
 </div>
