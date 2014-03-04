@@ -54,8 +54,8 @@ class RichSnippets extends PaymentModule
         if (Shop::isFeatureActive())
             Shop::setContext(Shop::CONTEXT_ALL);
         
-        return (parent::install() && 
-        $this->registerHook('header') && 
+        return (parent::install() &&
+        $this->registerHook('header') &&
         $this->registerHook('productfooter'));
     }
         
