@@ -24,108 +24,90 @@
 *  International Registered Trademark & Property of PrestaShop SA
 */
     
-    if (!defined('_PS_VERSION_'))
+if (!defined('_PS_VERSION_'))
     exit;
     
-    class RichSnippets extends PaymentModule
+class RichSnippets extends PaymentModule
+{
+    public function __construct()
     {
-        public function __construct()
-        {
-            $this->name = 'richsnippets';
-            $this->tab = 'seo';
-            $this->author = 'jorgevrgs';
-            $this->version = '0.1';
-            $this->need_instance = 1;
-            $this->module_key = '';
+        $this->name = 'richsnippets';
+        $this->tab = 'seo';
+        $this->author = 'jorgevrgs';
+        $this->version = '0.1';
+        $this->need_instance = 1;
+        $this->module_key = '';
             
-            parent::__construct();
+        parent::__construct();
             
-            $this->displayName = 'Rich Snippets';
-            $this->description = 'Add meta data for rich snippets';
+        $this->displayName = 'Rich Snippets';
+        $this->description = 'Add meta data for rich snippets';
             
-            $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
+        $this->confirmUninstall = $this->l('Are you sure you want to uninstall?');
             
-            $this->ps_versions_compliancy = array('min' => '1.5.0.1', 'max' => '1.6.0.0');
-            
-            $this->initContext();
-        }
+        $this->ps_versions_compliancy = array('min' => '1.5.0.1', 'max' => '1.6.0.0');
+    }
         
-        /* Install */
-        public function install()
-        {
-            if (Shop::isFeatureActive())
-                Shop::setContext(Shop::CONTEXT_ALL);
-            
-            return (parent::install() AND
-                    $this->registerHook('header') AND
-                    $this->registerHook('productfooter')
-                    );
-        }
+    /* Install */
+    public function install()
+    {
+        if (Shop::isFeatureActive())
+            Shop::setContext(Shop::CONTEXT_ALL);
         
+        return (parent::install() && 
+        $this->registerHook('header') && 
+        $this->registerHook('productfooter'));
+    }
         
-        /* Retrocompatibility 1.4/1.5 */
-        private function initContext()
-        {
-            if (class_exists('Context'))
-                $this->context = Context::getContext();
-            else
-            {
-                global $smarty, $cookie;
-                $this->context = new StdClass();
-                $this->context->smarty = $smarty;
-                $this->context->cookie = $cookie;
-            }
-        }
-        
-        /* Uninstall */
-        public function uninstall()
-        {
-            if (!parent::uninstall())
-                return false;
-            return true;
-        }
-        
-        public function displayBlock($display = 'header')
-        {
-            $id_lang = $this->context->language->id;
-            $id_shop = $this->context->shop->id;
+    /* Uninstall */
+    public function uninstall()
+    {
+        if (!parent::uninstall())
+            return false;
+        return true;
+    }
+    
+    public function displayBlock($display = 'header')
+    {
+        $id_lang = $this->context->language->id;
+        $id_shop = $this->context->shop->id;
 
+        
+        $product = new Product((int)Tools::getValue('id_product'), false, $id_lang, $id_shop);
+        
+        if (Validate::isLoadedObject($product))
+        {
+            $manufacturer = new Manufacturer($product->id_manufacturer, $id_lang);
             
-            $product = new Product((int)Tools::getValue('id_product'), false, $id_lang, $id_shop);
-            
-            if (Validate::isLoadedObject($product))
-            {
-                $manufacturer = new Manufacturer($product->id_manufacturer, $id_lang);
-                
-                //image of the product
-                $id_image = Product::getCover((int)Tools::getValue('id_product'));
-                if (sizeof($id_image) > 0)
-                    $image = new Image($id_image['id_image']);
+            //image of the product
+            $id_image = Product::getCover((int)Tools::getValue('id_product'));
+            if (sizeof($id_image) > 0)
+                $image = new Image($id_image['id_image']);
 
-                $this->context->smarty->assign(array(
-                                                     'product' => $product,
-                                                     'image' => $image,
-                                                     'manufacturer' => $manufacturer,
-                                                     ));
-                // Shows tpl file
-                if ($display == 'header')
-                    return $this->display(__FILE__, 'header.tpl');
-                elseif ($display == 'footerproduct')
-                        return $this->display(__FILE__, 'footerproduct.tpl');
-            }
-            else
+            $this->context->smarty->assign(array(
+                                                 'product' => $product,
+                                                 'image' => $image,
+                                                 'manufacturer' => $manufacturer,
+                                                 ));
+            // Shows tpl file
+            if ($display == 'header')
                 return $this->display(__FILE__, 'header.tpl');
+            elseif ($display == 'footerproduct')
+                    return $this->display(__FILE__, 'footerproduct.tpl');
+        }
+        else
+            return $this->display(__FILE__, 'header.tpl');
 
-        }
-        
-        public function hookDisplayHeader()
-        {
-            return $this->displayBlock('header');
-        }
-        
-        public function hookDisplayFooterProduct()
-        {
-            return $this->displayBlock('footerproduct');
-        }
+    }
+    
+    public function hookDisplayHeader()
+    {
+        return $this->displayBlock('header');
+    }
+    
+    public function hookDisplayFooterProduct()
+    {
+        return $this->displayBlock('footerproduct');
+    }
         
     }
